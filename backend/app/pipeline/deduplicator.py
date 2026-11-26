@@ -77,7 +77,7 @@ def cluster_and_deduplicate(articles: List[Dict], similarity_threshold: float = 
     return [c.to_dict() for c in clusters]
 
 if __name__ == "__main__":
-    from collector import fetch_rss_articles
+    from backend.app.pipeline.collector import fetch_rss_articles
     
     print("Testing Semantic Clustering & Deduplication...")
     raw_articles = fetch_rss_articles(limit_per_feed=3, fetch_full_body=False)
