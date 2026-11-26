@@ -1,0 +1,34 @@
+@import "tailwindcss";
+
+@layer base {
+  body {
+    font-family: "Inter", system-ui, -apple-system, sans-serif;
+    background-color: #020617;
+    color: #f1f5f9;
+  }
+}
+
+.font-urdu {
+  font-family: "Noto Nastaliq Urdu", serif;
+  line-height: 2.3;
+}
+
+@keyframes ticker-marquee-rtl {
+  0% {
+    transform: translate3d(-50%, 0, 0);
+  }
+  100% {
+    transform: translate3d(0%, 0, 0);
+  }
+}
+
+.animate-ticker-rtl {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+  animation: ticker-marquee-rtl 34s linear infinite;
+}
+
+.animate-ticker-rtl:hover {
+  animation-play-state: paused;
+}
