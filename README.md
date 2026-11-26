@@ -110,5 +110,39 @@ To ensure smooth parallel development across our 3-member team:
 
 ---
 
+## Run locally
+
+Run all commands from the repository root.
+
+### Windows (PowerShell)
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -r backend\requirements.txt
+copy backend\.env.example backend\.env
+# Edit backend\.env and fill in your keys
+
+pytest
+python -m backend.app.pipeline.collector
+uvicorn backend.app.main:app --reload
+```
+
+### Mac / Linux
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r backend/requirements.txt
+cp backend/.env.example backend/.env
+# Edit backend/.env and fill in your keys
+
+pytest
+python -m backend.app.pipeline.collector
+uvicorn backend.app.main:app --reload
+```
+
+Once the server starts, open `http://localhost:8000/docs` in your browser.
+
+---
+
 ## 📜 Academic Disclaimer
 This project is an academic research and software engineering prototype for demonstration purposes at GIK Institute. All scraped articles are credited with live URLs to their respective primary publishers.
