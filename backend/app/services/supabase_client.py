@@ -429,3 +429,26 @@ def prune_old_bulletins(
 
     active_client.table("bulletins").delete().in_("id", old_ids).execute()
     return len(old_ids)
+
+
+def list_recent_runs(
+    limit: int = 10, client: Optional[Client] = None
+) -> List[Dict[str, Any]]:
+    """Return the most recent pipeline runs ordered newest first."""
+    active_client = _resolve_client(client)
+    if active_client is None:
+        path = get_data_dir() / "pipeline_runs.json"
+        runs = _read_json(path, [])
+        runs_sorted = sorted(
+            runs, key=lambda r: r.get("started_at") or "", reverse=True
+        )
+        return runs_sorted[:limit]
+
+    resp = (
+        active_client.table("pipeline_runs")
+        .select("*")
+        .order("started_at", desc=True)
+        .limit(limit)
+        .execute()
+    )
+    return list(resp.data or [])
