@@ -50,6 +50,15 @@ def test_clean_text_for_tts_expands_abbreviations_and_normalizes_digits():
     assert "ہوا۔ اسٹیٹ" in cleaned
 
 
+def test_clean_text_for_tts_adds_attribution_pause_and_pronunciation_hints():
+    raw = "ڈان کے مطابق اے آئی نیوز اسٹوڈیو میں سکیورٹی اجلاس ہوا۔"
+    cleaned = clean_text_for_tts(raw)
+
+    assert "ڈان کے مطابق،" in cleaned
+    assert "اے آئی نیوز سٹوڈیو" in cleaned
+    assert "سیکیورٹی" in cleaned
+
+
 def test_clean_text_for_tts_supports_custom_abbreviations():
     cleaned = clean_text_for_tts("GIKI میں نیا سیمینار ہوا۔", abbreviations={"GIKI": "غلام اسحاق خان انسٹی ٹیوٹ"})
     assert "غلام اسحاق خان انسٹی ٹیوٹ" in cleaned

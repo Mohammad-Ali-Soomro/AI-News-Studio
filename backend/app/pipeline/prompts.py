@@ -55,7 +55,9 @@ STRICT JOURNALISTIC RULES:
    - Use ONLY facts, names, locations, dates, and numbers explicitly present in that story's Source Text or Headline.
    - Never invent numbers, statistics, quotes, causes, or background claims.
    - Keep numbers written accurately and matching the source values (use standard digits or Urdu digits matching the exact number in the source).
-   - Keep proper nouns accurate. Write general Urdu cleanly without mixing unnecessary English words; at least 80 percent of letters in spoken_script must be Urdu script.
+   - Keep proper nouns accurate. Write natural, idiomatic broadcast Urdu (avoid awkward literal transliterations like "چارج کیا گیا" or "کنٹری ہوم"; use natural Urdu equivalents like "فرد جرم عائد کی گئی" or "رہائش گاہ").
+   - Use clear punctuation (، and ۔) and short, crisp clauses so the anchor speaks with natural pauses rather than run-on sentences.
+   - At least 80 percent of letters in spoken_script must be Urdu script.
    - No opinions, speculation, or editorializing.
 2. Broadcast Structure and Word Count:
    - Total stories: {total}, preserving the exact order (Story #1 to Story #{total}).

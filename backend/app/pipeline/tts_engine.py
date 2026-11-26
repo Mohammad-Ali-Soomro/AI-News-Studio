@@ -26,6 +26,10 @@ logger = logging.getLogger(__name__)
 DEFAULT_URDU_VOICE = "ur-PK-UzmaNeural"
 ALT_URDU_VOICE = "ur-PK-AsadNeural"
 
+# Mature broadcast prosody defaults (calmer pace; ur-PK voices require +0Hz pitch)
+DEFAULT_TTS_RATE = "-6%"
+DEFAULT_TTS_PITCH = "+0Hz"
+
 VOICE_MAP = {
     ("ur", "Anchor_A"): DEFAULT_URDU_VOICE,
     ("ur", "Anchor_B"): ALT_URDU_VOICE,
@@ -35,10 +39,10 @@ VOICE_MAP = {
 
 # Extend this dictionary to customize how abbreviations are spoken in Urdu TTS.
 ABBREVIATIONS: Dict[str, str] = {
-    "IBOs": "انٹیلی جنس بیسڈ آپریشنز",
-    "IBO": "انٹیلی جنس بیسڈ آپریشن",
+    "IBOs": "خفیہ اطلاعات پر مبنی کارروائیوں",
+    "IBO": "خفیہ اطلاعات پر مبنی کارروائی",
     "JUI-F": "جے یو آئی ایف",
-    "PML-N": "مسلم لیگ ن",
+    "PML-N": "مسلم لیگ نون",
     "NADRA": "نادرا",
     "WAPDA": "واپڈا",
     "ISPR": "آئی ایس پی آر",
@@ -61,6 +65,13 @@ ABBREVIATIONS: Dict[str, str] = {
     "MNA": "رکن قومی اسمبلی",
 }
 
+# Extensible Urdu pronunciation hints for words edge-tts tends to slur or rush.
+PRONUNCIATION_HINTS: Dict[str, str] = {
+    "سکیورٹی": "سیکیورٹی",
+    "اسٹوڈیو": "سٹوڈیو",
+    "نیوز اسٹوڈیو": "نیوز سٹوڈیو",
+}
+
 DIGIT_TRANSLATION_TABLE = str.maketrans("۰۱۲۳۴۵۶۷۸۹٠١٢٣٤٥٦٧٨٩", "01234567890123456789")
 
 
@@ -75,10 +86,20 @@ class TTSProvider(ABC):
 class EdgeTTSProvider(TTSProvider):
     """Free Microsoft Edge Neural TTS provider using edge-tts."""
 
+    def __init__(
+        self,
+        rate: str = DEFAULT_TTS_RATE,
+        pitch: str = DEFAULT_TTS_PITCH,
+    ) -> None:
+        self.rate = rate
+        self.pitch = pitch
+
     async def synthesize(self, text: str, voice: str, out_path: Path | str) -> None:
         target = Path(out_path)
         target.parent.mkdir(parents=True, exist_ok=True)
-        communicate = edge_tts.Communicate(text, voice)
+        communicate = edge_tts.Communicate(
+            text, voice, rate=self.rate, pitch=self.pitch
+        )
         await communicate.save(str(target))
 
 
@@ -92,13 +113,16 @@ class AzureSpeechProvider(TTSProvider):
 
 
 def clean_text_for_tts(
-    text: str, abbreviations: Optional[Dict[str, str]] = None
+    text: str,
+    abbreviations: Optional[Dict[str, str]] = None,
+    pronunciation_hints: Optional[Dict[str, str]] = None,
 ) -> str:
     """
-    Prepare Urdu broadcast text for natural TTS pronunciation:
+    Prepare Urdu broadcast text for natural, clear TTS delivery:
     - Strip markdown artifacts
     - Normalize Urdu/Arabic digits to standard digits and remove numeric commas
     - Expand common English abbreviations into spoken Urdu forms
+    - Apply Urdu pronunciation hints and natural newsreader clause pauses
     - Normalize Urdu punctuation and whitespace
     """
     if not text:
@@ -110,6 +134,8 @@ def clean_text_for_tts(
     cleaned = cleaned.translate(DIGIT_TRANSLATION_TABLE)
     # Remove thousands separator commas inside numbers (e.g. 1,200 -> 1200)
     cleaned = re.sub(r"(?<=\d),(?=\d)", "", cleaned)
+    # Convert stray Latin commas outside numbers to Urdu comma for natural pauses
+    cleaned = cleaned.replace(",", "،")
 
     # Expand abbreviations (longest keys first)
     abbr_map = abbreviations if abbreviations is not None else ABBREVIATIONS
@@ -120,6 +146,18 @@ def clean_text_for_tts(
             flags=re.IGNORECASE,
         )
         cleaned = pattern.sub(replacement, cleaned)
+
+    # Apply Urdu pronunciation hints (longest keys first)
+    hints_map = pronunciation_hints if pronunciation_hints is not None else PRONUNCIATION_HINTS
+    for phrase in sorted(hints_map.keys(), key=len, reverse=True):
+        cleaned = cleaned.replace(phrase, hints_map[phrase])
+
+    # Add natural broadcast pauses after attribution and greeting leads
+    cleaned = re.sub(
+        r"(ڈان کے مطابق|ڈان کی رپورٹ کے مطابق|ایکسپریس ٹریبیون کے مطابق|پولیس کے مطابق)(?!\s*[،۔])",
+        r"\1،",
+        cleaned,
+    )
 
     # Ensure spacing between numbers and adjacent Urdu script characters
     cleaned = re.sub(r"([\u0600-\u06FF])(\d)", r"\1 \2", cleaned)
@@ -266,7 +304,10 @@ async def generate_speech(
 
 
 async def generate_voice_comparison_samples(
-    sample_text: str, media_dir: Optional[Path | str] = None
+    sample_text: str,
+    media_dir: Optional[Path | str] = None,
+    rate: str = DEFAULT_TTS_RATE,
+    pitch: str = DEFAULT_TTS_PITCH,
 ) -> Dict[str, Path]:
     """Generate short MP3 samples for both Uzma and Asad Urdu voices."""
     settings = get_settings()
@@ -274,7 +315,7 @@ async def generate_voice_comparison_samples(
     samples_dir = base_media / "samples"
     samples_dir.mkdir(parents=True, exist_ok=True)
 
-    provider = EdgeTTSProvider()
+    provider = EdgeTTSProvider(rate=rate, pitch=pitch)
     cleaned = clean_text_for_tts(sample_text)
     outputs = {
         DEFAULT_URDU_VOICE: samples_dir / "sample_uzma.mp3",
@@ -313,6 +354,18 @@ def main(argv: Optional[List[str]] = None) -> int:
         type=str,
         default=DEFAULT_URDU_VOICE,
         help=f"Override default voice (default: {DEFAULT_URDU_VOICE})",
+    )
+    parser.add_argument(
+        "--rate",
+        type=str,
+        default=DEFAULT_TTS_RATE,
+        help=f"TTS speaking rate adjustment (default: {DEFAULT_TTS_RATE})",
+    )
+    parser.add_argument(
+        "--pitch",
+        type=str,
+        default=DEFAULT_TTS_PITCH,
+        help=f"TTS pitch adjustment (default: {DEFAULT_TTS_PITCH})",
     )
     parser.add_argument(
         "--gap",
@@ -356,7 +409,11 @@ def main(argv: Optional[List[str]] = None) -> int:
             )
             if b.stories:
                 sample_text = b.stories[0].spoken_script
-        paths = asyncio.run(generate_voice_comparison_samples(sample_text))
+        paths = asyncio.run(
+            generate_voice_comparison_samples(
+                sample_text, rate=args.rate, pitch=args.pitch
+            )
+        )
         for voice, path in paths.items():
             dur = measure_mp3_duration(path)
             print(f"Voice sample [{voice}]: {path} ({dur:.2f}s)")
@@ -371,9 +428,11 @@ def main(argv: Optional[List[str]] = None) -> int:
         bulletin = Bulletin.model_validate_json(
             bulletin_path.read_text(encoding="utf-8")
         )
+        provider = EdgeTTSProvider(rate=args.rate, pitch=args.pitch)
         updated, report = asyncio.run(
             synthesize_bulletin_audio(
                 bulletin,
+                provider=provider,
                 default_voice=args.voice,
                 gap_sec=args.gap,
                 upload_to_supabase=not args.no_upload,
