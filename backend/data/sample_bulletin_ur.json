@@ -3,7 +3,7 @@
   "title": "اے آئی نیوز اسٹوڈیو بلیٹن",
   "generated_at": "2026-11-26T08:31:17.915570+00:00",
   "language": "ur",
-  "total_duration_sec": 0.0,
+  "total_duration_sec": 52.584,
   "stories": [
     {
       "story_id": "story_1",
@@ -36,8 +36,8 @@
       ],
       "image_url": null,
       "start_time_sec": 0.0,
-      "duration_sec": 0.0,
-      "audio_url": null,
+      "duration_sec": 19.752,
+      "audio_url": "https://iojmqyvwucynreeknpgp.supabase.co/storage/v1/object/public/media/audio/bulletin-20261126-083117_story_1.mp3",
       "video_url": null
     },
     {
@@ -70,44 +70,9 @@
         }
       ],
       "image_url": null,
-      "start_time_sec": 0.0,
-      "duration_sec": 0.0,
-      "audio_url": null,
-      "video_url": null
-    },
-    {
-      "story_id": "story_3",
-      "category": "Economy",
-      "anchor": "Anchor_A",
-      "language": "ur",
-      "spoken_script": "ایکسپریس ٹریبیون کے مطابق بھارت کی اعلی عدالت نے خوراک کے انتباہی لیبل مزید سخت کر دیے ہیں۔ اس عدالتی حکم کو پیپسی کو، مونڈیلیز، کوکا کولا اور نستلے جیسی بڑی خوراک اور مشروبات بنانے والی کمپنیوں کے لیے ایک بڑا دھچکا قرار دیا جا رہا ہے۔",
-      "headline": "بھارتی عدالت کا خوراک کے انتباہی لیبل سخت کرنے کا حکم",
-      "ticker_text": "ایکسپریس ٹریبیون کے مطابق بھارت کی اعلی عدالت نے خوراک کے انتباہی لیبل سخت کر دیے ہیں۔",
-      "source": {
-        "title": "India's top court tightens food warning labels in new setback for industry",
-        "publisher": "Express Tribune",
-        "source_url": "https://tribune.com.pk/story/2642441/indias-top-court-tightens-food-warning-labels-in-new-setback-for-industry",
-        "published_at": null,
-        "summary": "Order will be a major setback to food and drink players such as PepsiCo, Mondelez, Coca-Cola and Nestle"
-      },
-      "insight_panel": [
-        {
-          "key": "اہم نکتہ",
-          "value": "لیبل سخت کیے گئے"
-        },
-        {
-          "key": "مقام",
-          "value": "بھارت"
-        },
-        {
-          "key": "ماخذ",
-          "value": "ایکسپریس ٹریبیون"
-        }
-      ],
-      "image_url": null,
-      "start_time_sec": 0.0,
-      "duration_sec": 0.0,
-      "audio_url": null,
+      "start_time_sec": 20.352,
+      "duration_sec": 16.176,
+      "audio_url": "https://iojmqyvwucynreeknpgp.supabase.co/storage/v1/object/public/media/audio/bulletin-20261126-083117_story_2.mp3",
       "video_url": null
     },
     {
@@ -140,9 +105,9 @@
         }
       ],
       "image_url": null,
-      "start_time_sec": 0.0,
-      "duration_sec": 0.0,
-      "audio_url": null,
+      "start_time_sec": 37.128,
+      "duration_sec": 15.456,
+      "audio_url": "https://iojmqyvwucynreeknpgp.supabase.co/storage/v1/object/public/media/audio/bulletin-20261126-083117_story_4.mp3",
       "video_url": null
     }
   ]
