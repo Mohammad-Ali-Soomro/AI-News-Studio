@@ -3,7 +3,7 @@
   "title": "اے آئی نیوز اسٹوڈیو بلیٹن",
   "generated_at": "2026-11-26T08:31:17.915570+00:00",
   "language": "ur",
-  "total_duration_sec": 0.0,
+  "total_duration_sec": 66.384,
   "stories": [
     {
       "story_id": "story_1",
@@ -36,8 +36,8 @@
       ],
       "image_url": null,
       "start_time_sec": 0.0,
-      "duration_sec": 0.0,
-      "audio_url": null,
+      "duration_sec": 18.504,
+      "audio_url": "https://iojmqyvwucynreeknpgp.supabase.co/storage/v1/object/public/media/audio/bulletin-20261126-083117_story_1.mp3",
       "video_url": null
     },
     {
@@ -70,9 +70,9 @@
         }
       ],
       "image_url": null,
-      "start_time_sec": 0.0,
-      "duration_sec": 0.0,
-      "audio_url": null,
+      "start_time_sec": 19.104,
+      "duration_sec": 15.168,
+      "audio_url": "https://iojmqyvwucynreeknpgp.supabase.co/storage/v1/object/public/media/audio/bulletin-20261126-083117_story_2.mp3",
       "video_url": null
     },
     {
@@ -105,9 +105,9 @@
         }
       ],
       "image_url": null,
-      "start_time_sec": 0.0,
-      "duration_sec": 0.0,
-      "audio_url": null,
+      "start_time_sec": 34.872,
+      "duration_sec": 16.368,
+      "audio_url": "https://iojmqyvwucynreeknpgp.supabase.co/storage/v1/object/public/media/audio/bulletin-20261126-083117_story_3.mp3",
       "video_url": null
     },
     {
@@ -140,9 +140,9 @@
         }
       ],
       "image_url": null,
-      "start_time_sec": 0.0,
-      "duration_sec": 0.0,
-      "audio_url": null,
+      "start_time_sec": 51.84,
+      "duration_sec": 14.544,
+      "audio_url": "https://iojmqyvwucynreeknpgp.supabase.co/storage/v1/object/public/media/audio/bulletin-20261126-083117_story_4.mp3",
       "video_url": null
     }
   ]
