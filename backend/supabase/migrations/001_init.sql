@@ -96,3 +96,8 @@ CREATE POLICY "Public read stories for ready bulletins"
               AND b.status = 'ready'
         )
     );
+
+-- Explicit role privileges (required on projects where SQL Editor tables do not auto-grant to service_role/anon)
+GRANT USAGE ON SCHEMA public TO anon, authenticated, service_role;
+GRANT ALL ON TABLE public.articles, public.pipeline_runs, public.bulletins, public.stories TO service_role;
+GRANT SELECT ON TABLE public.bulletins, public.stories TO anon;
