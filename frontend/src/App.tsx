@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { AlertTriangle, RefreshCw } from "lucide-react";
-import { AnchorStage } from "./components/AnchorStage";
+import { AnchorStage } from "./components/studio/AnchorStage";
 import { BroadcastHeader } from "./components/BroadcastHeader";
 import { InsightPanel } from "./components/InsightPanel";
 import { LiveTicker } from "./components/LiveTicker";
@@ -114,6 +114,7 @@ export function App() {
               isPlaying={timeline.isPlaying}
               hasStarted={hasStarted}
               ended={timeline.ended}
+              audioElement={timeline.audioElement}
               onStartBroadcast={handleStartOrReplay}
             />
           </div>
