@@ -59,6 +59,7 @@ backend/media/
 backend/storage/
 *.mp4
 *.mp3
+!frontend/public/demo/audio/*.mp3
 *.wav
 *.avi
 !backend/media/sample/.gitkeep
