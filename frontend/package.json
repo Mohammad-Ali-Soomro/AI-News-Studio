@@ -10,11 +10,14 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@pixiv/three-vrm": "^3.6.0",
     "@supabase/supabase-js": "^2.49.0",
+    "@types/three": "^0.187.0",
     "framer-motion": "^12.0.0",
     "lucide-react": "^0.475.0",
     "react": "^19.0.0",
-    "react-dom": "^19.0.0"
+    "react-dom": "^19.0.0",
+    "three": "^0.187.0"
   },
   "devDependencies": {
     "@tailwindcss/vite": "^4.0.0",
